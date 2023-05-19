@@ -38,15 +38,17 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
     setUDauth(uD)
   }, [])
 
-  useEffect(async () => {
-    if(selected == 'UD' && udUser == undefined && uDauth != undefined){
-      try {
-        await uDauth.loginWithPopup()
-        location.reload()
-      } catch (error) {
-        console.log(error)
-      }
-    } else handleClick()
+  useEffect(() => {
+    async () =>{
+      if(selected == 'UD' && udUser == undefined && uDauth != undefined){
+        try {
+          await uDauth.loginWithPopup()
+          location.reload()
+        } catch (error) {
+          console.log(error)
+        }
+      } else handleClick()
+    }
   },[selected])
 
   const handleClick = () => {
