@@ -40,7 +40,7 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
 
   useEffect(() => {
     async () =>{
-      if(selected == 'UD' && udUser == undefined && uDauth != undefined){
+      if(selected === 'UD' && udUser === undefined && uDauth !== undefined){
         try {
           await uDauth.loginWithPopup()
           location.reload()
@@ -50,6 +50,22 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
       } else handleClick()
     }
   },[selected])
+
+  useEffect(() => {
+    if (uDauth != undefined && udUser != undefined) {
+      try {
+        uDauth.user()
+          .then((user) => {
+            setUdUser(user)
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+      } catch (err) {
+        // console.log(err)
+      }
+    }
+  }, [uDauth])
 
   const handleClick = () => {
     if (typeof __NEZHA_BRIDGE__ !== 'undefined') {

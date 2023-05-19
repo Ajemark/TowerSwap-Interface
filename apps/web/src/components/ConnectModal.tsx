@@ -18,11 +18,6 @@ export function ConnectModal({ isOpen, setSelected, setIsOpen }: any) {
     setSelected('UD')
   }
 
-  const handleNear = () => {
-    setIsOpen(false)
-    setSelected('NEAR')
-  }
-
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
