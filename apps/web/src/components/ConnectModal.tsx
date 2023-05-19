@@ -1,26 +1,26 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 
-export function ConnectModal({ isOpen, setSelected, setIsOpen }: any) {
+export function ConnectModal({ connectModalOpen, setSelected, setconnectModalOpen }: any) {
 
   function closeModal() {
-    setIsOpen(false)
+    setconnectModalOpen(false)
     setSelected(null)
   }
 
   const handleRainbowKit = () => {
-    setIsOpen(false)
+    setconnectModalOpen(false)
     setSelected('RBK')
   }
 
   const handleUD = () => {
-    setIsOpen(false)
+    setconnectModalOpen(false)
     setSelected('UD')
   }
 
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear show={connectModalOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10 w-[90%] overflow-hidden" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
