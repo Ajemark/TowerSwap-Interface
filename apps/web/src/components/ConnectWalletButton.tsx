@@ -64,7 +64,10 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
   return (
     <>
 
-      <Button onClick={()=> setconnectModalOpen(true)} {...props}>
+      <Button onClick={()=> {
+        console.log("OWrking")
+        setconnectModalOpen(true)
+      }} {...props}>
         {children || <Trans>Connect Wallet</Trans>}
       </Button>
       <WalletModalV2
