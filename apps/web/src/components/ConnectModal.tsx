@@ -10,7 +10,7 @@ export function ConnectModal({ connectModalOpen, setSelected, setconnectModalOpe
 
   const handleRainbowKit = () => {
     setconnectModalOpen(false)
-    setSelected('RBK')
+    setSelected('NEZHA')
   }
 
   const handleUD = () => {

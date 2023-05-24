@@ -38,17 +38,37 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
     setUDauth(uD)
   }, [])
 
+
+  const handleConnectButton = () => {
+    async function check() {
+      if (udUser == undefined) {
+        setSelected(null)
+        setconnectModalOpen(true)
+        return
+      } else if (udUser != undefined && uDauth != undefined) {
+        await uDauth.logout()
+        location.reload()
+      }
+      setSelected(null)
+      setconnectModalOpen(true)
+    }
+    check()
+  }
+
+
   useEffect(() => {
-    async () =>{
-      if(selected == 'UD' && udUser == undefined && uDauth != undefined){
-        console.log('UD login')
+    async () => {
+      console.log('UD login')
+      if (selected == 'UD' && udUser == undefined && uDauth != undefined) {
         try {
           await uDauth.loginWithPopup()
           location.reload()
         } catch (error) {
           console.log(error)
         }
-      } else handleClick()
+      } else if (selected == "NEZHA") {
+        handleClick()
+      }
     }
   },[selected, uDauth])
 
@@ -71,9 +91,7 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
   const handleClick = () => {
     if (typeof __NEZHA_BRIDGE__ !== 'undefined') {
       handleActive()
-    } else {
-      setOpen(true)
-    }
+    } 
   }
 
   const wallets = useMemo(() => createWallets(chainId, connectAsync), [chainId, connectAsync])
@@ -82,10 +100,15 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
     <>
 
       <Button onClick={()=> {
-        setconnectModalOpen(true)
+        handleConnectButton()
       }} {...props}>
-        {children || <Trans>Connect Wallet</Trans>}
+        {children || <Trans> Connect Wallet</Trans>}
       </Button>
+
+      {udUser ? <Button onClick={() => {
+        handleConnectButton()
+      }}> {udUser.sub}</Button> : ''}
+
       <WalletModalV2
         docText={t('Learn How to Connect')}
         docLink={docLink}
