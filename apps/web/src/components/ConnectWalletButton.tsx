@@ -27,8 +27,7 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
   const [connectModalOpen, setconnectModalOpen] = useState(false)
 
   const [uDauth, setUDauth] = useState<UAuth|undefined>()
-  const [udUser, setUdUser] = useState<UserInfo|undefined>()
-  let UdloggedIn = false;
+  const [udUser, setUdUser] = useState<UserInfo | undefined>()
 
   useEffect(() => {
     const uD = new UAuth({
@@ -47,8 +46,7 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
         return
       } else if (udUser != undefined && uDauth != undefined) {
         await uDauth.logout()
-        UdloggedIn = false
-        // location.reload()
+        location.reload()
       }
       setSelected(null)
       setconnectModalOpen(true)
@@ -61,7 +59,7 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
       if (selected == 'UD' && udUser == undefined) {
         try {
           await uDauth.loginWithPopup()
-          UdloggedIn = true
+          location.reload()
         } catch (error) {
           console.log(error)
         }
@@ -86,7 +84,7 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
         // console.log(err)
       }
     }
-  }, [uDauth, UdloggedIn])
+  }, [uDauth])
 
   const handleClick = () => {
     if (typeof __NEZHA_BRIDGE__ !== 'undefined') {
@@ -101,11 +99,11 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
       {udUser ? <Button onClick={() => {
         handleConnectButton()
       }}> {udUser.sub}</Button> : (
-        <Button onClick={() => {
-          handleConnectButton()
-        }} {...props}>
-          {children || <Trans> Connect Wallet</Trans>}
-        </Button>
+          <Button onClick={() => {
+            handleConnectButton()
+          }} {...props}>
+            {children || <Trans> Connect Wallet</Trans>}
+          </Button>
       )}
 
       <WalletModalV2
