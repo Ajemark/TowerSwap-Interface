@@ -25,6 +25,7 @@ import { SentryErrorBoundary } from '../components/ErrorBoundary'
 import Menu from '../components/Menu'
 import Providers from '../Providers'
 import GlobalStyle from '../style/Global'
+import '../style/global.css'
 
 const EasterEgg = dynamic(() => import('components/EasterEgg'), { ssr: false })
 
