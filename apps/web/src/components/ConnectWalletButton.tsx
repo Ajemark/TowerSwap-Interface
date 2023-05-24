@@ -31,12 +31,13 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
 
   useEffect(() => {
     const uD = new UAuth({
-      clientID: "37a2f337-c4b9-465d-86df-efa58498ac20",
+      clientID: "2fe60d33-5fa3-4d67-8af3-d8e54ab536d7",
       redirectUri: `${location.origin}`,
       scope: "openid wallet email profile:optional social:optional"
     })
     setUDauth(uD)
   }, [])
+
 
 
   const handleConnectButton = () => {
@@ -57,9 +58,8 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
 
 
   useEffect(() => {
-    async () => {
-      console.log('UD login')
-      if (selected == 'UD' && udUser == undefined && uDauth != undefined) {
+    const checkLogin = async () => {
+      if (selected == 'UD' && udUser == undefined) {
         try {
           await uDauth.loginWithPopup()
           location.reload()
@@ -70,6 +70,8 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
         handleClick()
       }
     }
+
+    checkLogin()
   },[selected, uDauth])
 
   useEffect(() => {
@@ -98,7 +100,6 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
 
   return (
     <>
-
       <Button onClick={()=> {
         handleConnectButton()
       }} {...props}>
