@@ -89,7 +89,9 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
   const handleClick = () => {
     if (typeof __NEZHA_BRIDGE__ !== 'undefined') {
       handleActive()
-    } 
+    } else {
+      setOpen(true)
+    }
   }
 
   const wallets = useMemo(() => createWallets(chainId, connectAsync), [chainId, connectAsync])
