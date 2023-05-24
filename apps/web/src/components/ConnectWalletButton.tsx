@@ -50,7 +50,7 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
         }
       } else handleClick()
     }
-  },[selected])
+  },[selected, uDauth])
 
   useEffect(() => {
     if (uDauth != undefined && udUser != undefined) {
