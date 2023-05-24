@@ -26,8 +26,8 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
   const [selected, setSelected] = useState(null)
   const [connectModalOpen, setconnectModalOpen] = useState(false)
 
-  const [uDauth, setUDauth] = useState<UAuth>()
-  const [udUser, setUdUser] = useState<UserInfo>()
+  const [uDauth, setUDauth] = useState<UAuth|undefined>()
+  const [udUser, setUdUser] = useState<UserInfo|undefined>()
 
   useEffect(() => {
     const uD = new UAuth({
@@ -40,7 +40,8 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
 
   useEffect(() => {
     async () =>{
-      if(selected === 'UD' && udUser === undefined && uDauth !== undefined){
+      if(selected == 'UD' && udUser == undefined && uDauth != undefined){
+        console.log('UD login')
         try {
           await uDauth.loginWithPopup()
           location.reload()
@@ -81,7 +82,6 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
     <>
 
       <Button onClick={()=> {
-        console.log("OWrking")
         setconnectModalOpen(true)
       }} {...props}>
         {children || <Trans>Connect Wallet</Trans>}
