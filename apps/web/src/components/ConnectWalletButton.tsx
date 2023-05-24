@@ -28,6 +28,7 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
 
   const [uDauth, setUDauth] = useState<UAuth|undefined>()
   const [udUser, setUdUser] = useState<UserInfo|undefined>()
+  let UdloggedIn = false;
 
   useEffect(() => {
     const uD = new UAuth({
@@ -38,8 +39,6 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
     setUDauth(uD)
   }, [])
 
-
-
   const handleConnectButton = () => {
     async function check() {
       if (udUser == undefined) {
@@ -48,7 +47,8 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
         return
       } else if (udUser != undefined && uDauth != undefined) {
         await uDauth.logout()
-        location.reload()
+        UdloggedIn = false
+        // location.reload()
       }
       setSelected(null)
       setconnectModalOpen(true)
@@ -56,13 +56,12 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
     check()
   }
 
-
   useEffect(() => {
     const checkLogin = async () => {
       if (selected == 'UD' && udUser == undefined) {
         try {
           await uDauth.loginWithPopup()
-          location.reload()
+          UdloggedIn = true
         } catch (error) {
           console.log(error)
         }
@@ -70,12 +69,11 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
         handleClick()
       }
     }
-
     checkLogin()
   },[selected, uDauth])
 
   useEffect(() => {
-    if (uDauth != undefined && udUser != undefined) {
+    if (uDauth != undefined && udUser == undefined) {
       try {
         uDauth.user()
           .then((user) => {
@@ -88,7 +86,7 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
         // console.log(err)
       }
     }
-  }, [uDauth])
+  }, [uDauth, UdloggedIn])
 
   const handleClick = () => {
     if (typeof __NEZHA_BRIDGE__ !== 'undefined') {
@@ -100,15 +98,15 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
 
   return (
     <>
-      <Button onClick={()=> {
-        handleConnectButton()
-      }} {...props}>
-        {children || <Trans> Connect Wallet</Trans>}
-      </Button>
-
       {udUser ? <Button onClick={() => {
         handleConnectButton()
-      }}> {udUser.sub}</Button> : ''}
+      }}> {udUser.sub}</Button> : (
+        <Button onClick={() => {
+          handleConnectButton()
+        }} {...props}>
+          {children || <Trans> Connect Wallet</Trans>}
+        </Button>
+      )}
 
       <WalletModalV2
         docText={t('Learn How to Connect')}
